@@ -1,42 +1,31 @@
+
 # HTTP_SERVER
 实现http服务器，支持文件夹/文件上传和下载
 
 
-# 简介
+## 简介
 本文主要讨论如何实现远程文件的上传和下载功能。
 
 由于本人好久不写代码，手有些生了，功能还算是实现了，有需要的人可以参考一下~
 
 
 ## 功能
+### 已完成
 1. 本地上传文件夹（单个文件夹，文件夹内部支持多级嵌套）
 2. 本地上传文件（多个任意类型的文件）
 3. 展示文件目录（以当前目录为根目录，层层展开显示其中所有文件），属性（文件路径，大小和最后修改时间）
 4. 实时生成目录树和文件列表写入文件，支持下载导出
 5. 文件下载
-
-### 代码：
+### 未完成
+- 文件删除
+## 代码
 该模块通过以相当简单的方式实现标准`GET`和`HEAD`请求，构建在`BaseHTTPServer`上，基于`BaseHTTPRequestHandler`实现，具体细节请看代码和注释。
-
-
-#### 本地测试启动
-```shell
-python simple_http_server.py 8000
-```
-
-`linux`服务器启动时，注意选择`python3`环境
-
-#### 忽略挂断信号
-```shell
-nohup python3 HTTP_SERVER.py >> ../HTTP_SERVER.log 2>&1 &
-```
 
 __version__："0.3.0"
 
-__author__：antrn CSDN: https://blog.csdn.net/qq_38232598
+__author__：我的CSDN博客地址：[antrn](CSDN:%20https://blog.csdn.net/qq_38232598) 
 
-#### 函数功能
-
+### 函数功能
 |类/函数|注释|
 |--|--|
 |class MyHTTPRequestHandler(BaseHTTPRequestHandler): | 带有GET/HEAD/POST命令的简单HTTP请求处理程序。提供来自当前目录及其任何子目录的文件,可以接收客户端上传的文件和文件夹。GET/HEAD/POST请求完全相同，只是HEAD请求忽略了文件的实际内容。|
@@ -56,7 +45,8 @@ __author__：antrn CSDN: https://blog.csdn.net/qq_38232598
 |if __name__ == '__main__':|入口|
 
 
-    
+
+
 ## 版本更新记录
 
  - 0.0.8.基于BaseHTTPRequestHandler实现目录列表功能，原来是只显示一级文件或目录，修改为walk遍历所有文件
@@ -71,18 +61,25 @@ __author__：antrn CSDN: https://blog.csdn.net/qq_38232598
 该代码目前在`windows`和`Linux`平台均已测试通过，有兴趣的小伙伴可以运行试一下。
 
 ## 运行步骤：
-
  - 打开`Terminal/CMD`窗口，进入要共享的文件目录，注意使用`python3`运行代码：
 ```shell
 python http_server.py [port]
 ```
  - `[port]` 端口为可选参数，默认8001。
+
+### 本地测试启动
+```shell
+python http_server.py 8000
+```
+
  - 如果需要放在服务器运行，则使用远程连接工具登录到服务器控制台，需要使用`nohup`来支持关闭`shell`之后，让他保持后台运行，
  - 执行：
 ```shell
  nohup python3 HTTP_SERVER.py >> HTTP_SERVER.log 2>&1 &
  ```
  - 这里我们将日志保存到`HTTP_SERVER.log`中，便于调试查看，优化程序。
+
+`linux`服务器启动时，注意选择`python3`环境
 
 ## 效果图
 请按照上述命令启动，打开浏览器输入`IP:port`即可。
@@ -119,7 +116,7 @@ python http_server.py [port]
 
 ## 结尾
 
-好了，本次探索到此为止，有兴趣的小伙伴赶紧去玩一下吧！GitHub仓库：
+好了，本次探索到此为止，有兴趣的小伙伴赶紧去玩一下吧！GitHub仓库：[JevenM](https://github.com/JevenM/HTTP_SERVER)
 
 ## 参考资料
 
