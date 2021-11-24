@@ -31,17 +31,15 @@ python simple_http_server.py 8000
 nohup python3 HTTP_SERVER.py >> ../HTTP_SERVER.log 2>&1 &
 ```
 
-__version__ = "0.3.0"
+__version__："0.3.0"
 
-__author__ = "antrn CSDN: https://blog.csdn.net/qq_38232598"
-
-__all__ = ["MyHTTPRequestHandler"]
+__author__：antrn CSDN: https://blog.csdn.net/qq_38232598
 
 #### 函数功能
 
-
-|class MyHTTPRequestHandler(BaseHTTPRequestHandler):|带有GET/HEAD/POST命令的简单HTTP请求处理程序。提供来自当前目录及其任何子目录的文件,可以接收客户端上传的文件和文件夹。GET/HEAD/POST请求完全相同，只是HEAD请求忽略了文件的实际内容。|
-
+|类/函数|注释|
+|--|--|
+|class MyHTTPRequestHandler(BaseHTTPRequestHandler): | 带有GET/HEAD/POST命令的简单HTTP请求处理程序。提供来自当前目录及其任何子目录的文件,可以接收客户端上传的文件和文件夹。GET/HEAD/POST请求完全相同，只是HEAD请求忽略了文件的实际内容。|
 |def p(self, url):|构建目录树，存入列表|
 |def getAllFilesList(self):|获取文件列表|
 |def writeList(self,url):|写入文件|
@@ -51,14 +49,13 @@ __all__ = ["MyHTTPRequestHandler"]
 |def deal_post_data(self):|处理post数据|     
 |def send_head(self):|Common code for GET and HEAD commands.This sends the response code and MIME headers.Return value is either a file object (which has to be copied to the output file by the caller unless the command was HEAD,and must be closed by the caller under all circumstances), orNone, in which case the caller has nothing further to do.|
 |def list_directory(self, path):|Helper to produce a directory listing (absent index.html).Return value is either a file object, or None (indicating an error).  In either case, the headers are sent, making the interface the same as for send_head().|
-|def guess_type(self, path):|Guess the type of a file.Argument is a PATH (a filename).Return value is a string of the form type/subtype,usable for a MIME Content-type header.
-The default implementation looks the file's extension up in the table self.extensions_map, using application/octet-stream as a default; however it would be permissible (if
-slow) to look inside the data to make a better guess.|
+|def guess_type(self, path):|Guess the type of a file.Argument is a PATH (a filename).Return value is a string of the form type/subtype,usable for a MIME Content-type header. The default implementation looks the file's extension up in the table self.extensions_map, using application/octet-stream as a default; however it would be permissible (if slow) to look inside the data to make a better guess.|
 |def translate_path(path):|Translate a /-separated PATH to the local filename syntax.Components that mean special things to the local file system (e.g. drive or directory names) are ignored.  (XXX They should probably be diagnosed.)|
 |def signal_handler(signal, frame):|提示关闭，退出|
 |def main():|主函数|
 |if __name__ == '__main__':|入口|
-    
+
+
     
 ## 版本更新记录
 
@@ -76,13 +73,13 @@ slow) to look inside the data to make a better guess.|
 ## 运行步骤：
 
  - 打开`Terminal/CMD`窗口，进入要共享的文件目录，注意使用`python3`运行代码：
-```python
+```shell
 python http_server.py [port]
 ```
  - `[port]` 端口为可选参数，默认8001。
  - 如果需要放在服务器运行，则使用远程连接工具登录到服务器控制台，需要使用`nohup`来支持关闭`shell`之后，让他保持后台运行，
  - 执行：
-```python
+```shell
  nohup python3 HTTP_SERVER.py >> HTTP_SERVER.log 2>&1 &
  ```
  - 这里我们将日志保存到`HTTP_SERVER.log`中，便于调试查看，优化程序。
@@ -94,15 +91,22 @@ python http_server.py [port]
 
 ### dirtree 目录树+列表
 在地址栏输入`127.0.0.1:8000/dirtree.txt`，或者直接点击列表中的`dirtree.txt`文件，跳转到显示文件内容的页面，如下图，这两个列表默认都是按照英文字母和数字的顺序排序（小写字母），两种方式方便不同查看目录结构的需求。
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/e80d55675706461a949b0324ef0a7922.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAQW50cm4=,size_20,color_FFFFFF,t_70,g_se,x_16)
+
 ## 上传
 此模块包括上传（多个）文件和上传文件夹两种功能，针对不同的需求。
 ### 上传文件夹
 点击`Directory Updating`下的`Choose Files`，在弹出窗口选择要上传的文件夹，点击`upload`，随后`chrome`浏览器会弹出页面，
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/ec93063cf5fa436dad4027e12a6cb65d.png)
+
 再次点击`upload`，此处显示文件夹中的文件总数量
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/44efcae987fa434b9f9a0cb9f76dfa30.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAQW50cm4=,size_16,color_FFFFFF,t_70,g_se,x_16)
+
 随后点击`uploadDir`，即可上传，成功页面如下
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/bd16f9fb78164f9a957f5001efe497cf.jpg?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAQW50cm4=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 
 点击`back`返回主页面
