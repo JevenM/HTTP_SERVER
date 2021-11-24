@@ -43,41 +43,18 @@ __all__ = ["MyHTTPRequestHandler"]
 |class MyHTTPRequestHandler(BaseHTTPRequestHandler):|带有GET/HEAD/POST命令的简单HTTP请求处理程序。提供来自当前目录及其任何子目录的文件,可以接收客户端上传的文件和文件夹。GET/HEAD/POST请求完全相同，只是HEAD请求忽略了文件的实际内容。|
 
 |def p(self, url):|构建目录树，存入列表|
-|--|--|
 |def getAllFilesList(self):|获取文件列表|
-|--|--|
 |def writeList(self,url):|写入文件|
-|--|--|
 |def do_GET(self):|处理GET请求|
-|--|--|
 |def do_HEAD(self):|Serve a HEAD request.|
-|--|--|
 |def do_POST(self):|Serve a POST request.|
-|--|--|
-|def deal_post_data(self):|处理post数据|
-|--|--|      
-|def send_head(self):|Common code for GET and HEAD commands.
-This sends the response code and MIME headers.
-Return value is either a file object (which has to be copied
-to the output file by the caller unless the command was HEAD,
-and must be closed by the caller under all circumstances), or
-None, in which case the caller has nothing further to do.|
-|def list_directory(self, path):|Helper to produce a directory listing (absent index.html).
-Return value is either a file object, or None (indicating an
-error).  In either case, the headers are sent, making the
-interface the same as for send_head().|
-|def guess_type(self, path):|Guess the type of a file.
-Argument is a PATH (a filename).
-Return value is a string of the form type/subtype,
-usable for a MIME Content-type header.
-The default implementation looks the file's extension
-up in the table self.extensions_map, using application/octet-stream
-as a default; however it would be permissible (if
+|def deal_post_data(self):|处理post数据|     
+|def send_head(self):|Common code for GET and HEAD commands.This sends the response code and MIME headers.Return value is either a file object (which has to be copied to the output file by the caller unless the command was HEAD,and must be closed by the caller under all circumstances), orNone, in which case the caller has nothing further to do.|
+|def list_directory(self, path):|Helper to produce a directory listing (absent index.html).Return value is either a file object, or None (indicating an error).  In either case, the headers are sent, making the interface the same as for send_head().|
+|def guess_type(self, path):|Guess the type of a file.Argument is a PATH (a filename).Return value is a string of the form type/subtype,usable for a MIME Content-type header.
+The default implementation looks the file's extension up in the table self.extensions_map, using application/octet-stream as a default; however it would be permissible (if
 slow) to look inside the data to make a better guess.|
-|def translate_path(path):|Translate a /-separated PATH to the local filename syntax.
-Components that mean special things to the local file system
-(e.g. drive or directory names) are ignored.  (XXX They should
-probably be diagnosed.)|
+|def translate_path(path):|Translate a /-separated PATH to the local filename syntax.Components that mean special things to the local file system (e.g. drive or directory names) are ignored.  (XXX They should probably be diagnosed.)|
 |def signal_handler(signal, frame):|提示关闭，退出|
 |def main():|主函数|
 |if __name__ == '__main__':|入口|
