@@ -19,83 +19,68 @@
 该模块通过以相当简单的方式实现标准`GET`和`HEAD`请求，构建在`BaseHTTPServer`上，基于`BaseHTTPRequestHandler`实现，具体细节请看代码和注释。
 
 
-#本地测试启动 python simple_http_server.py 8000
-#linux服务器启动时，注意选择python3环境
-#忽略挂断信号
-#nohup python3 HTTP_SERVER.py >> ../HTTP_SERVER.log 2>&1 &
+#### 本地测试启动
+```shell
+python simple_http_server.py 8000
+```
+
+`linux`服务器启动时，注意选择`python3`环境
+
+#### 忽略挂断信号
+```shell
+nohup python3 HTTP_SERVER.py >> ../HTTP_SERVER.log 2>&1 &
+```
 
 __version__ = "0.3.0"
+
 __author__ = "antrn CSDN: https://blog.csdn.net/qq_38232598"
+
 __all__ = ["MyHTTPRequestHandler"]
 
+#### 函数功能
 
-"""带有GET/HEAD/POST命令的简单HTTP请求处理程序。
-提供来自当前目录及其任何子目录的文件,可以接收客户端上传的文件和文件夹。
-GET/HEAD/POST请求完全相同，只是HEAD请求忽略了文件的实际内容。
-"""
-class MyHTTPRequestHandler(BaseHTTPRequestHandler):
- 
-构建目录树，存入列表
-def p(self, url):
 
-获取文件列表
-def getAllFilesList(self):
+|class MyHTTPRequestHandler(BaseHTTPRequestHandler):|带有GET/HEAD/POST命令的简单HTTP请求处理程序。提供来自当前目录及其任何子目录的文件,可以接收客户端上传的文件和文件夹。GET/HEAD/POST请求完全相同，只是HEAD请求忽略了文件的实际内容。|
 
-写入文件
-def writeList(self,url):
-
-处理GET请求
-def do_GET(self):
-
-Serve a HEAD request.
-def do_HEAD(self):
-
-Serve a POST request.
-def do_POST(self):
-
-处理post数据
-def deal_post_data(self):
-        
-发送head
-Common code for GET and HEAD commands.
+|def p(self, url):|构建目录树，存入列表|
+|--|--|
+|def getAllFilesList(self):|获取文件列表|
+|--|--|
+|def writeList(self,url):|写入文件|
+|--|--|
+|def do_GET(self):|处理GET请求|
+|--|--|
+|def do_HEAD(self):|Serve a HEAD request.|
+|--|--|
+|def do_POST(self):|Serve a POST request.|
+|--|--|
+|def deal_post_data(self):|处理post数据|
+|--|--|      
+|def send_head(self):|Common code for GET and HEAD commands.
 This sends the response code and MIME headers.
 Return value is either a file object (which has to be copied
 to the output file by the caller unless the command was HEAD,
 and must be closed by the caller under all circumstances), or
-None, in which case the caller has nothing further to do.
-def send_head(self):
-
-
-Helper to produce a directory listing (absent index.html).
+None, in which case the caller has nothing further to do.|
+|def list_directory(self, path):|Helper to produce a directory listing (absent index.html).
 Return value is either a file object, or None (indicating an
 error).  In either case, the headers are sent, making the
-interface the same as for send_head().
-def list_directory(self, path):
-        
-Guess the type of a file.
+interface the same as for send_head().|
+|def guess_type(self, path):|Guess the type of a file.
 Argument is a PATH (a filename).
 Return value is a string of the form type/subtype,
 usable for a MIME Content-type header.
 The default implementation looks the file's extension
 up in the table self.extensions_map, using application/octet-stream
 as a default; however it would be permissible (if
-slow) to look inside the data to make a better guess.
-def guess_type(self, path):
-       
-Translate a /-separated PATH to the local filename syntax.
+slow) to look inside the data to make a better guess.|
+|def translate_path(path):|Translate a /-separated PATH to the local filename syntax.
 Components that mean special things to the local file system
 (e.g. drive or directory names) are ignored.  (XXX They should
-probably be diagnosed.)
-def translate_path(path):
-    
-提示关闭，退出
-def signal_handler(signal, frame):
-
-主函数
-def main():
-   
-入口
-if __name__ == '__main__':
+probably be diagnosed.)|
+|def signal_handler(signal, frame):|提示关闭，退出|
+|def main():|主函数|
+|if __name__ == '__main__':|入口|
     
     
 ## 版本更新记录
