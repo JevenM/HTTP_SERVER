@@ -1,0 +1,76 @@
+http://192.168.163.1:8001/ directory tree
+|    |    |    |    |    |____HEAD 179
+|    |    |    |    |____HEAD 30
+|    |    |    |    |____main 179
+|    |    |    |    |____origin
+|    |    |    |____heads
+|    |    |    |____main 41
+|    |    |    |____origin
+|    |    |    |____pack-436dba429301a7086cb2d255771660f60cf7162f.idx 1156
+|    |    |    |____pack-436dba429301a7086cb2d255771660f60cf7162f.pack 663
+|    |    |    |____remotes
+|    |    |____HEAD 179
+|    |    |____applypatch-msg.sample 478
+|    |    |____commit-msg.sample 896
+|    |    |____exclude 240
+|    |    |____fsmonitor-watchman.sample 4655
+|    |    |____heads
+|    |    |____info
+|    |    |____pack
+|    |    |____post-update.sample 189
+|    |    |____pre-applypatch.sample 424
+|    |    |____pre-commit.sample 1643
+|    |    |____pre-merge-commit.sample 416
+|    |    |____pre-push.sample 1374
+|    |    |____pre-rebase.sample 4898
+|    |    |____pre-receive.sample 544
+|    |    |____prepare-commit-msg.sample 1492
+|    |    |____refs
+|    |    |____remotes
+|    |    |____tags
+|    |    |____update.sample 3650
+|    |____FETCH_HEAD 97
+|    |____HEAD 21
+|    |____config 324
+|    |____description 73
+|    |____hooks
+|    |____index 137
+|    |____info
+|    |____logs
+|    |____objects
+|    |____packed-refs 112
+|    |____refs
+|____.git
+|____HTTP_SERVER.py 17311
+|____README.md 76
+
+File Path	File Size	File Modify Time
+/HTTP_SERVER.py	17311	2021-11-24 18:20:24	
+/README.md	76	2021-11-24 18:19:00	
+/dirtree.txt	0	2021-11-24 18:21:04	
+/.git/FETCH_HEAD	97	2021-11-24 18:19:29	
+/.git/HEAD	21	2021-11-24 18:19:00	
+/.git/config	324	2021-11-24 18:19:00	
+/.git/description	73	2021-11-24 18:18:58	
+/.git/index	137	2021-11-24 18:20:22	
+/.git/packed-refs	112	2021-11-24 18:19:00	
+/.git/hooks/applypatch-msg.sample	478	2021-11-24 18:18:58	
+/.git/hooks/commit-msg.sample	896	2021-11-24 18:18:58	
+/.git/hooks/fsmonitor-watchman.sample	4655	2021-11-24 18:18:58	
+/.git/hooks/post-update.sample	189	2021-11-24 18:18:58	
+/.git/hooks/pre-applypatch.sample	424	2021-11-24 18:18:58	
+/.git/hooks/pre-commit.sample	1643	2021-11-24 18:18:58	
+/.git/hooks/pre-merge-commit.sample	416	2021-11-24 18:18:58	
+/.git/hooks/pre-push.sample	1374	2021-11-24 18:18:58	
+/.git/hooks/pre-rebase.sample	4898	2021-11-24 18:18:58	
+/.git/hooks/pre-receive.sample	544	2021-11-24 18:18:58	
+/.git/hooks/prepare-commit-msg.sample	1492	2021-11-24 18:18:58	
+/.git/hooks/update.sample	3650	2021-11-24 18:18:58	
+/.git/info/exclude	240	2021-11-24 18:18:58	
+/.git/logs/HEAD	179	2021-11-24 18:19:00	
+/.git/logs/refs/heads/main	179	2021-11-24 18:19:00	
+/.git/logs/refs/remotes/origin/HEAD	179	2021-11-24 18:19:00	
+/.git/objects/pack/pack-436dba429301a7086cb2d255771660f60cf7162f.idx	1156	2021-11-24 18:19:00	
+/.git/objects/pack/pack-436dba429301a7086cb2d255771660f60cf7162f.pack	663	2021-11-24 18:19:00	
+/.git/refs/heads/main	41	2021-11-24 18:19:00	
+/.git/refs/remotes/origin/HEAD	30	2021-11-24 18:19:00	
