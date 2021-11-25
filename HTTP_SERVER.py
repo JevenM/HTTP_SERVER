@@ -409,9 +409,10 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
             fsize = st.st_size
             fmtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(st.st_mtime))
             f.write(b"<tr>")
-            f.write(b'<td><a href="%s">%s</a></td>' % (quote(linkname).encode('ascii'), escape(display_name).encode('ascii')))
+            f.write(b'<td><a href="%s">%s</a></td>' % (quote(linkname).encode('utf-8'), escape(display_name).encode('utf-8')))
             f.write(b"<td>%d</td>" % fsize)
             f.write(b"<td>%s</td>" % escape(fmtime).encode('ascii'))
+            f.write(b"<td><a href=\"/delete/%s\">delete</a>" % escape(display_name).encode('utf-8'))
             f.write(b"</tr>")
         f.write(b"</table>")
         f.write(b"\n<hr>\n</body>\n</html>\n")
