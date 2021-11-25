@@ -16,8 +16,8 @@
 3. 展示文件目录（以当前目录为根目录，层层展开显示其中所有文件），属性（文件路径，大小和最后修改时间）
 4. 实时生成目录树和文件列表写入文件，支持下载导出
 5. 文件下载
-### 未完成
-- 文件删除
+6. 文件删除
+
 ## 代码
 该模块通过以相当简单的方式实现标准`GET`和`HEAD`请求，构建在`BaseHTTPServer`上，基于`BaseHTTPRequestHandler`实现，具体细节请看代码和注释。
 
@@ -40,6 +40,7 @@ __author__：我的CSDN博客地址：[antrn](CSDN:%20https://blog.csdn.net/qq_3
 |def list_directory(self, path):|Helper to produce a directory listing (absent index.html).Return value is either a file object, or None (indicating an error).  In either case, the headers are sent, making the interface the same as for send_head().|
 |def guess_type(self, path):|Guess the type of a file.Argument is a PATH (a filename).Return value is a string of the form type/subtype,usable for a MIME Content-type header. The default implementation looks the file's extension up in the table self.extensions_map, using application/octet-stream as a default; however it would be permissible (if slow) to look inside the data to make a better guess.|
 |def translate_path(path):|Translate a /-separated PATH to the local filename syntax.Components that mean special things to the local file system (e.g. drive or directory names) are ignored.  (XXX They should probably be diagnosed.)|
+|def str_to_chinese(self,var)|将16进制字符串解析为中文字符|
 |def signal_handler(signal, frame):|提示关闭，退出|
 |def main():|主函数|
 |if __name__ == '__main__':|入口|
@@ -57,6 +58,9 @@ __author__：我的CSDN博客地址：[antrn](CSDN:%20https://blog.csdn.net/qq_3
  - 0.2.8.美化界面
  - 0.2.9.写入文件字符乱码问题，增加目录列表排序
  - 0.3.0.最后规整发布
+ - 0.3.5.支持上传中文文件
+ - 0.3.9.支持删除远程文件
+ - 0.4.0.解决各种中文字符编码问题
 
 该代码目前在`windows`和`Linux`平台均已测试通过，有兴趣的小伙伴可以运行试一下。
 
