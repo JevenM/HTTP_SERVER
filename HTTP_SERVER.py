@@ -98,7 +98,7 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 
         paths = unquote(self.path)
         path = str(paths)
-        plist = path.split("/")
+        plist = path.split("/", 2)
         #result = urllib.parse.urlparse(paths).query
         #paralist = result.split("=")
         #if len(plist) > 1 and plist[1] == "delete" and len(paralist)>1:
@@ -110,9 +110,15 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
         # f.write(b"<hr>\n")
         if len(plist) > 2 and plist[1] == "delete":
             result = plist[2]
+            print("ready delete file===",result)
             if os.path.exists(result):
                 print("delete file===",result)
+                dirn = os.path.dirname(result)
+                #删除完文件，检测是否为空，删除文件夹
+                print("dirn", dirn)
                 os.remove(result)
+                if not os.listdir(dirn):
+                    os.removedirs(dirn)
                 time.sleep(0.5)
                 # 0.5s后重定向
                 self.send_response(302)
@@ -268,6 +274,7 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
             print("pre_line", pre_line)
             remain_bytes -= len(pre_line)
             print("remain_bytes", remain_bytes)
+            Flag = True
             while remain_bytes > 0:
                 line = self.rfile.readline()
                 print("while line", line)
@@ -281,10 +288,15 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
                     out.close()
                     #return True, "File '%s' upload success!" % fn
                     res.append("File '%s' upload success!" % fn)
+                    Flag = False
                     break
                 else:
                     out.write(pre_line)
                     pre_line = line
+            if pre_line is not None and Flag == True:
+                out.write(pre_line)
+                out.close()
+                res.append("File '%s' upload success!" % fn)
             #return False, "Unexpect Ends of data."
         return True, res
 
