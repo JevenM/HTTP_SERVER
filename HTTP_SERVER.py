@@ -95,12 +95,56 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         """Serve a GET request."""
+
+        paths = unquote(self.path)
+        path = str(paths)
+        plist = path.split("/")
+        #result = urllib.parse.urlparse(paths).query
+        #paralist = result.split("=")
+        #if len(plist) > 1 and plist[1] == "delete" and len(paralist)>1:
+            # result = paralist[1]
+        # f = BytesIO()
+        # f.write(b'<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">')
+        # f.write(b"<html>\n<title>Delete Result Page</title>\n")
+        # f.write(b"<body>\n<h2>Delete Result Page</h2>\n")
+        # f.write(b"<hr>\n")
+        if len(plist) > 2 and plist[1] == "delete":
+            result = plist[2]
+            if os.path.exists(result):
+                print("delete file===",result)
+                os.remove(result)
+                time.sleep(0.5)
+                # 0.5s后重定向
+                self.send_response(302)
+                self.send_header('Location', "/")
+                self.end_headers()
+                return
+
+
+            #     f.write(b"delete successfully<br>")
+
+            # f.write(b"not found<br>")
+
+            # f.write(b"<br><a href=\"/\">back</a>")
+            
+            # f.write(b"</body>\n</html>\n")
+            # length = f.tell()
+            # f.seek(0)
+            # self.send_response(200)
+            # self.send_header("Content-type", "text/html;charset=utf-8")
+            # self.send_header("Content-Length", str(length))
+            # self.end_headers()
+            # if f:
+            #     print("############")
+            #     shutil.copyfileobj(f, self.wfile)
+            #     f.close()
+            #     return
+        # 这个一定要放在后面，否则，怎么都不会重定向，一直卡在默认的404页面
         fd = self.send_head()
-        path = str(self.path)
         #查看当前的请求路径
         #参考https://blog.csdn.net/qq_35038500/article/details/87943004
-        print("path===", path)
         if fd:
+            print("path===", path)
             shutil.copyfileobj(fd, self.wfile)
             #只有回到根目录下才更新写入目录文件，保持最新
             if path == "/":
@@ -130,7 +174,7 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 
         for i in info:
             print(r, i, "by: ", self.client_address)
-            f.write(i.encode('ascii')+b"<br>")
+            f.write(i.encode('utf-8')+b"<br>")
         f.write(b"<br><a href=\"%s\">back</a>" % self.headers['referer'].encode('ascii'))
         #f.write(b"<hr><small>Powered By: freelamb, check new version at ")
         #f.write(b"<a href=\"https://github.com/freelamb/simple_http_server\">")
@@ -147,6 +191,34 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
         #每次提交post请求之后更新目录树文件
         self.p(translate_path(self.path))
         self.writeList(MyHTTPRequestHandler.treefile)
+
+    def str_to_chinese(self,var):
+        not_end = True
+        while not_end:
+            start1 = var.find("\\x")
+            # print start1
+            if start1 > -1:
+                str1 = var[start1 + 2:start1 + 4]
+                print(str1)
+                start2 = var[start1 + 4:].find("\\x") + start1 + 4
+                if start2 > -1:
+                    str2 = var[start2 + 2:start2 + 4]
+
+                    start3 = var[start2 + 4:].find("\\x") + start2 + 4
+                    if start3 > -1:
+                        str3 = var[start3 + 2:start3 + 4]
+            else:
+                not_end = False
+            if start1 > -1 and start2 > -1 and start3 > -1:
+                str_all = str1 + str2 + str3
+                # print str_all
+                str_all = codecs.decode(str_all, "hex").decode('utf-8')
+
+                str_re = var[start1:start3 + 4]
+                # print str_all, "   " ,str_re
+                var = var.replace(str_re, str_all)
+        # print var.decode('utf-8')
+        return var
 
     def deal_post_data(self):
         boundary = self.headers["Content-Type"].split("=")[1].encode('ascii')
@@ -170,7 +242,12 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
                 return False, "Can't find out file name..."
             path = translate_path(self.path)
 
-            fn = os.path.join(path, fn[0])
+            fname = fn[0]
+            #fname = fname.replace("\\", "\\\\")
+            fname = self.str_to_chinese(fname)
+            print("------",fname)
+            
+            fn = os.path.join(path, fname)
             while os.path.exists(fn):
                 fn += "_"
             print("!!!!",fn)
@@ -309,9 +386,10 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
                         fsize = st.st_size
                         fmtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(st.st_mtime))
                         f.write(b"<tr>")
-                        f.write(b'<td><a href="%s">%s</a></td>' % (quote(relativePath).encode('ascii'), escape(relativePath).encode('ascii')))
+                        f.write(b'<td><a href="%s">%s</a></td>' % (quote(relativePath).encode('utf-8'), escape(relativePath).encode('utf-8')))
                         f.write(b"<td>%d</td>" % fsize)
                         f.write(b"<td>%s</td>" % escape(fmtime).encode('ascii'))
+                        f.write(b"<td><a href=\"/delete/%s\">delete</a>" % escape(relativePath).encode('utf-8'))
                         f.write(b"</tr>")
                 
                     # # 遍历所有的文件夹
