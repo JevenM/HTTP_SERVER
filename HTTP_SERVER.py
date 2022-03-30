@@ -21,7 +21,7 @@ import mimetypes
 import re
 import signal
 from io import StringIO, BytesIO
-
+import codecs
 if sys.version_info.major == 3:
     # Python3
     from urllib.parse import quote
