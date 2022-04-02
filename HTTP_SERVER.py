@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 #本地测试启动 python simple_http_server.py 8000
 #linux服务器启动时，注意选择python3环境
-#忽略挂断信号
+#忽略挂断信号 , 默认端口1234
 #nohup python3 HTTP_SERVER.py >> ../HTTP_SERVER.log 2>&1 &
 
 __version__ = "0.3.0"
@@ -508,7 +508,7 @@ def main():
     if sys.argv[1:]:
         port = int(sys.argv[1])
     else:
-        port = 8001
+        port = 1234
     server_address = ('', port)
 
     signal.signal(signal.SIGINT, signal_handler)
