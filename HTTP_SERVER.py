@@ -379,18 +379,26 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
         f.write(b"<th>modify time</th>")
         f.write(b"</tr>")
 
+        # 根目录下所有的内容
         for name in list_dir:
+            # 根目录下的路径
             fullname = os.path.join(path, name)
+            # 目录名/文件名
             display_name = linkname = name
-            # Append / for directories or @ for symbolic links
+            print("display_name===", display_name)
+            if display_name == "HTTP_SERVER.py":
+                continue
+
+            # 如果是文件夹的话
             if os.path.isdir(fullname):
+                # 遍历文件夹
                 for root, dirs, files in os.walk(fullname):
                 # root 表示当前正在访问的文件夹路径
                 # dirs 表示该文件夹下的子目录名list
                 # files 表示该文件夹下的文件list
                     # 遍历文件
                     for fi in files:
-                        #print("########",os.path.join(root, fi))
+                        print("########",os.path.join(root, fi))
                         display_name = os.path.join(root, fi)
                         #删除前面的xx个字符，取出相对路径
                         relativePath = display_name[len(os.getcwd()):].replace('\\','/')
@@ -404,28 +412,30 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
                         f.write(b"<td><a href=\"/delete/%s\">delete</a>" % escape(relativePath).encode('utf-8'))
                         f.write(b"</tr>")
                 
-                    # # 遍历所有的文件夹
+                    # 遍历所有的文件夹名字，其实在上面walk已经遍历过了
                     # for d in dirs:
                     #     print(d)
-                continue        
-                #linkname = name + "/"
-            
-            #如果是链接文件
-            #if os.path.islink(fullname):
-                #display_name = name + "@"
+                        
+            # 如果是链接文件
+            elif os.path.islink(fullname):
+                linkname = linkname + "/"
+                print("real===", linkname)
+                display_name = name + "@"
                 # Note: a link to a directory displays with @ and links with /
-            #f.write(b'<li><a href="%s">%s</a>\n' % (quote(linkname).encode('ascii'), escape(display_name).encode('ascii')))
+                f.write(b'<li><a href="%s">%s</a>\n' % (quote(linkname).encode('ascii'), escape(display_name).encode('ascii')))
             
-            #其他直接在根目录下的文件直接显示出来
-            st = os.stat(display_name)
-            fsize = st.st_size
-            fmtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(st.st_mtime))
-            f.write(b"<tr>")
-            f.write(b'<td><a href="%s">%s</a></td>' % (quote(linkname).encode('utf-8'), escape(display_name).encode('utf-8')))
-            f.write(b"<td>%d</td>" % fsize)
-            f.write(b"<td>%s</td>" % escape(fmtime).encode('ascii'))
-            f.write(b"<td><a href=\"/delete/%s\">delete</a>" % escape(display_name).encode('utf-8'))
-            f.write(b"</tr>")
+            else:
+                #其他直接在根目录下的文件直接显示出来
+                st = os.stat(display_name)
+                fsize = st.st_size
+                fmtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(st.st_mtime))
+                f.write(b"<tr>")
+                f.write(b'<td><a href="%s">%s</a></td>' % (quote(linkname).encode('utf-8'), escape(display_name).encode('utf-8')))
+                f.write(b"<td>%d</td>" % fsize)
+                f.write(b"<td>%s</td>" % escape(fmtime).encode('ascii'))
+                f.write(b"<td><a href=\"/delete/%s\">delete</a>" % escape(display_name).encode('utf-8'))
+                f.write(b"</tr>")
+
         f.write(b"</table>")
         f.write(b"\n<hr>\n</body>\n</html>\n")
         length = f.tell()
