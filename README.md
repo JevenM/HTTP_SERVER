@@ -72,7 +72,7 @@ __author__：我的CSDN博客地址：[antrn](CSDN:%20https://blog.csdn.net/qq_3
 ```shell
 python http_server.py [port]
 ```
- - `[port]` 端口为可选参数，默认8001。
+ - `[port]` 端口为可选参数，默认1234。
 
 ### 本地测试启动
 ```shell
