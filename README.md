@@ -23,7 +23,7 @@
 
 __version__："0.3.0"
 
-__author__：我的CSDN博客地址：[antrn](CSDN:%20https://blog.csdn.net/qq_38232598) 
+__author__：我的CSDN博客地址：[antrn](https://blog.csdn.net/qq_38232598) 
 
 ### 函数功能
 |类/函数|注释|
