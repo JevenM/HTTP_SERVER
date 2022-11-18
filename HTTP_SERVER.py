@@ -84,10 +84,10 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
                 relative_path = display_name[len(
                     os.getcwd()):].replace('\\', '/')[1:]
                 if not relative_path.startswith('.'):
-                    print("display", display_name)
+                    # print("display", display_name)
                     st = os.stat(display_name)
                     fsize = st.st_size
-                    print("Size", str(os.path.getsize(display_name)))
+                    # print("Size", str(os.path.getsize(display_name)))
                     fmtime = time.strftime(
                         '%Y-%m-%d %H:%M:%S', time.localtime(st.st_mtime))
                     listofme.append(relative_path+"\t")
@@ -110,10 +110,11 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         """Serve a GET request."""
-
         paths = unquote(self.path)
         path = str(paths)
+        print("url path ===", path)
         plist = path.split("/", 2)
+        print("plist", plist)
         #result = urllib.parse.urlparse(paths).query
         #paralist = result.split("=")
         # if len(plist) > 1 and plist[1] == "delete" and len(paralist)>1:
@@ -125,9 +126,12 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
         # f.write(b"<hr>\n")
         if len(plist) > 2 and plist[1] == "delete":
             result = plist[2]
-            print("ready delete file===", result)
+            print("ready delete file===>", result)
+            # print(self.path)
+            if result.startswith("/"):
+                result = result[1:]
             if os.path.exists(result):
-                print("delete file===", result)
+                print("deleting file===>", result)
                 dirn = os.path.dirname(result)
                 # 删除完文件，检测是否为空，删除文件夹
                 print("dirn", dirn)
@@ -418,10 +422,10 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
                         # files 表示该文件夹下的文件list
                         # 遍历文件
                         for fi in files:
-                            print("########", os.path.join(root, fi))
+                            # print("########", os.path.join(root, fi))
                             display_name = os.path.join(root, fi)
                             # 删除前面的xx个字符，取出相对路径
-                            relativePath = display_name[len(
+                            relative_path = display_name[len(
                                 os.getcwd()):].replace('\\', '/')
                             st = os.stat(display_name)
                             fsize = st.st_size
@@ -429,12 +433,12 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
                                 '%Y-%m-%d %H:%M:%S', time.localtime(st.st_mtime))
                             f.write(b"<tr>")
                             f.write(b'<td><a href="%s">%s</a></td>' % (
-                                quote(relativePath).encode('utf-8'), escape(relativePath).encode('utf-8')))
+                                quote(relative_path).encode('utf-8'), escape(relative_path).encode('utf-8')))
                             f.write(b"<td>%d</td>" % fsize)
                             f.write(b"<td>%s</td>" %
                                     escape(fmtime).encode('ascii'))
                             f.write(b"<td><a href=\"/delete/%s\">delete</a>" %
-                                    escape(relativePath).encode('utf-8'))
+                                    escape(relative_path).encode('utf-8'))
                             f.write(b"</tr>")
 
                         # 遍历所有的文件夹名字，其实在上面walk已经遍历过了
@@ -444,7 +448,7 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
                 # 如果是链接文件
                 elif os.path.islink(fullname):
                     linkname = linkname + "/"
-                    print("real===", linkname)
+                    print("real link name ===", linkname)
                     display_name = name + "@"
                     # Note: a link to a directory displays with @ and links with /
                     f.write(b'<li><a href="%s">%s</a>\n' %
