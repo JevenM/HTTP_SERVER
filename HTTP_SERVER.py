@@ -61,10 +61,10 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
         for file in files:
             if not file.startswith('.'):
                 myfile = url + "//"+file
-                size = os.path.getsize(myfile)
+                size_str = bytes_conversion(myfile)
                 if os.path.isfile(myfile):
                     self.mylist.append(
-                        str(self.myspace)+"|____"+file + " " + str(size)+"\n")
+                        str(self.myspace)+"|____"+file + " " + size_str+"\n")
                 if os.path.isdir(myfile):
                     self.mylist.append(
                         str(self.myspace)+"|____"+file + "\n")
@@ -86,22 +86,23 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
                 if not relative_path.startswith('.'):
                     # print("display", display_name)
                     st = os.stat(display_name)
-                    fsize = st.st_size
+                    # fsize = st.st_size
+                    fsize = bytes_conversion(display_name)
                     # print("Size", str(os.path.getsize(display_name)))
                     fmtime = time.strftime(
                         '%Y-%m-%d %H:%M:%S', time.localtime(st.st_mtime))
                     listofme.append(relative_path+"\t")
-                    listofme.append(str(fsize/1000)+"\t")
+                    listofme.append(fsize+"\t")
                     listofme.append(str(fmtime)+"\t\n")
         return listofme
 
     def writeList(self, url):
-        f = open(url, 'w')
+        f = open(url, 'w', encoding="utf-8")
         f.write("http://"+str(self.IPAddress) +
                 ":8000/ \ndirectory tree\n")
         self.mylist.sort()
         f.writelines(self.mylist)
-        f.write("\nFile Path\tFile Size(KB)\tFile Modify Time\n")
+        f.write("\nFile Path\tFile Size\tFile Modify Time\n")
         f.writelines(self.getAllFilesList())
         self.mylist = []
         self.myspace = ""
@@ -112,9 +113,9 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
         """Serve a GET request."""
         paths = unquote(self.path)
         path = str(paths)
-        print("url path ===", path)
+        # print("url path ===", path)
         plist = path.split("/", 2)
-        print("plist", plist)
+        # print("plist", plist)
         #result = urllib.parse.urlparse(paths).query
         #paralist = result.split("=")
         # if len(plist) > 1 and plist[1] == "delete" and len(paralist)>1:
@@ -126,18 +127,20 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
         # f.write(b"<hr>\n")
         if len(plist) > 2 and plist[1] == "delete":
             result = plist[2]
-            print("ready delete file===>", result)
-            # print(self.path)
+            print("ready delete file/dir===>", result)
             if result.startswith("/"):
                 result = result[1:]
             if os.path.exists(result):
-                print("deleting file===>", result)
-                dirn = os.path.dirname(result)
+                print("deleting file/dir===>", result)
+                # dirn = os.path.dirname(result)
+                if os.path.isdir(result):
+                    shutil.rmtree(result)
+                else:
+                    os.remove(result)
                 # 删除完文件，检测是否为空，删除文件夹
-                print("dirn", dirn)
-                os.remove(result)
-                if dirn != '' and not os.listdir(dirn):
-                    os.removedirs(dirn)
+                # print("Parent Directory", dirn)
+                # if dirn != '' and not os.listdir(dirn):
+                #     os.removedirs(dirn)
                 time.sleep(0.5)
                 # 0.5s后重定向
                 self.send_response(302)
@@ -145,7 +148,7 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
                 self.end_headers()
                 return
 
-            #     f.write(b"delete successfully<br>")
+            # f.write(b"delete successfully<br>")
 
             # f.write(b"not found<br>")
 
@@ -173,7 +176,7 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
             # 只有回到根目录下才更新写入目录文件，保持最新
             if path == "/":
                 self.buildTree(translate_path(self.path))
-                self.writeList(MyHTTPRequestHandler.treefile)
+                self.writeList(self.treefile)
             fd.close()
 
     def do_HEAD(self):
@@ -353,7 +356,9 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
             self.send_error(404, "File not found")
             return None
         self.send_response(200)
-        self.send_header("Content-type", content_type)
+        # self.send_header("Content-type", content_type)
+        # Fix Messy Display
+        self.send_header("Content-type", content_type+";charset=utf-8")
         fs = os.fstat(f.fileno())
         self.send_header("Content-Length", str(fs[6]))
         self.send_header("Last-Modified", self.date_time_string(fs.st_mtime))
@@ -376,9 +381,9 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
         display_path = escape(unquote(self.path))
         f.write(b'<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">')
         f.write(b"<html>\n<title>Directory listing for %s</title>\n" %
-                display_path.encode('ascii'))
+                display_path.encode('utf-8'))
         f.write(b"<body>\n<h2>Directory listing for %s</h2>\n" %
-                display_path.encode('ascii'))
+                display_path.encode('utf-8'))
         f.write(b"<hr>\n")
         # 上传目录
         f.write(b"<h3>Directory Updating</h3>\n")
@@ -398,8 +403,10 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
         # 表格
         f.write(b"<table with=\"100%\">")
         f.write(b"<tr><th>path</th>")
-        f.write(b"<th>size(Byte)</th>")
+        f.write(b"<th>type</th>")
+        f.write(b"<th>size</th>")
         f.write(b"<th>modify time</th>")
+        f.write(b"<th>operation</th>")
         f.write(b"</tr>")
 
         # 根目录下所有的内容
@@ -408,7 +415,7 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
             fullname = os.path.join(path, name)
             # 目录名/文件名
             display_name = linkname = name
-            # print("display_name===", display_name)
+            print("display##########", display_name)
             if not display_name.startswith('.'):
                 if display_name == "HTTP_SERVER.py":
                     continue
@@ -416,34 +423,62 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
                 # 如果是文件夹的话
                 if os.path.isdir(fullname):
                     # 遍历文件夹
-                    for root, dirs, files in os.walk(fullname):
-                        # root 表示当前正在访问的文件夹路径
-                        # dirs 表示该文件夹下的子目录名list
-                        # files 表示该文件夹下的文件list
-                        # 遍历文件
-                        for fi in files:
-                            # print("########", os.path.join(root, fi))
-                            display_name = os.path.join(root, fi)
-                            # 删除前面的xx个字符，取出相对路径
-                            relative_path = display_name[len(
-                                os.getcwd()):].replace('\\', '/')
-                            st = os.stat(display_name)
-                            fsize = st.st_size
-                            fmtime = time.strftime(
-                                '%Y-%m-%d %H:%M:%S', time.localtime(st.st_mtime))
-                            f.write(b"<tr>")
-                            f.write(b'<td><a href="%s">%s</a></td>' % (
-                                quote(relative_path).encode('utf-8'), escape(relative_path).encode('utf-8')))
-                            f.write(b"<td>%d</td>" % fsize)
-                            f.write(b"<td>%s</td>" %
-                                    escape(fmtime).encode('ascii'))
-                            f.write(b"<td><a href=\"/delete/%s\">delete</a>" %
-                                    escape(relative_path).encode('utf-8'))
-                            f.write(b"</tr>")
+                    # for root, dirs, files in os.walk(fullname):
+                    # print("root", root)
+                    # print("dirs", dirs)
+                    # print("files", files)
+                    # root 表示当前正在访问的文件夹路径
+                    # dirs 表示该文件夹下的子目录名list
+                    # files 表示该文件夹下的文件list
+                    # 遍历文件
+                    # for fi in files:
+                    #     # print("########", os.path.join(root, fi))
+                    #     display_name = os.path.join(root, fi)
+                    #     # 删除前面的xx个字符，取出相对路径
+                    #     relative_path = display_name[len(
+                    #         os.getcwd()):].replace('\\', '/')
+                    #     st = os.stat(display_name)
+                    #     # fsize = st.st_size
+                    #     fsize = bytes_conversion(display_name)
+                    #     fmtime = time.strftime(
+                    #         '%Y-%m-%d %H:%M:%S', time.localtime(st.st_mtime))
+                    #     f.write(b"<tr>")
+                    #     f.write(b'<td><a href="%s">%s</a></td>' % (
+                    #         quote(relative_path).encode('utf-8'), escape(relative_path).encode('utf-8')))
+                    #     f.write(b"<td>%s</td>" %
+                    #             escape(fsize).encode('utf-8'))
+                    #     f.write(b"<td>%s</td>" %
+                    #             escape(fmtime).encode('ascii'))
+                    #     f.write(b"<td><a style='border: solid 1px red' href=\"/delete/%s\">delete</a>" %
+                    #             escape(relative_path).encode('utf-8'))
+                    #     f.write(b"</tr>")
 
-                        # 遍历所有的文件夹名字，其实在上面walk已经遍历过了
-                        # for d in dirs:
-                        #     print(d)
+                    # 遍历所有的文件夹名字，其实在上面walk已经遍历过了
+                    # for d in dirs:
+                    # print("dirs-------------------", d)
+                    st = os.stat(fullname)
+                    fsize = bytes_conversion(fullname)
+                    fmtime = time.strftime(
+                        '%Y-%m-%d %H:%M:%S', time.localtime(st.st_mtime))
+                    relative_path = fullname[len(
+                        os.getcwd()):].replace('\\', '/')
+                    f.write(b"<tr>")
+                    f.write(b'<td><a href="%s">%s</a></td>' % (
+                        quote(relative_path).encode('utf-8'), escape("/"+display_name).encode('utf-8')))
+                    ftype = "file"
+                    if os.path.isdir(fullname):
+                        ftype = "dir"
+                    elif os.path.isfile(fullname):
+                        ftype = "file"
+                    f.write(b"<td>%s</td>" %
+                            escape(ftype).encode('utf-8'))
+                    f.write(b"<td>%s</td>" %
+                            escape(fsize).encode('utf-8'))
+                    f.write(b"<td>%s</td>" %
+                            escape(fmtime).encode('ascii'))
+                    f.write(b"<td><a style='border: solid 1px red' href=\"/delete/%s\">delete</a>" %
+                            escape(fullname).encode('utf-8'))
+                    f.write(b"</tr>")
 
                 # 如果是链接文件
                 elif os.path.islink(fullname):
@@ -456,17 +491,25 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 
                 else:
                     # 其他直接在根目录下的文件直接显示出来
-                    st = os.stat(display_name)
-                    fsize = st.st_size
+                    st = os.stat(fullname)
+                    # fsize = st.st_size
+                    fsize = bytes_conversion(fullname)
                     fmtime = time.strftime(
                         '%Y-%m-%d %H:%M:%S', time.localtime(st.st_mtime))
                     f.write(b"<tr>")
                     f.write(b'<td><a href="%s">%s</a></td>' %
                             (quote(linkname).encode('utf-8'), escape(display_name).encode('utf-8')))
-                    f.write(b"<td>%d</td>" % fsize)
+                    ftype = "file"
+                    if os.path.isdir(fullname):
+                        ftype = "dir"
+                    elif os.path.isfile(fullname):
+                        ftype = "file"
+                    f.write(b"<td>%s</td>" %
+                            escape(ftype).encode('utf-8'))
+                    f.write(b"<td>%s</td>" % escape(fsize).encode('utf-8'))
                     f.write(b"<td>%s</td>" % escape(fmtime).encode('ascii'))
                     f.write(b"<td><a href=\"/delete/%s\">delete</a>" %
-                            escape(display_name).encode('utf-8'))
+                            escape(fullname).encode('utf-8'))
                     f.write(b"</tr>")
 
         f.write(b"</table>")
@@ -507,6 +550,7 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
         '.py': 'text/plain',
         '.c': 'text/plain',
         '.h': 'text/plain',
+        '.txt': 'text/plain',
     })
 
 
@@ -530,6 +574,24 @@ def translate_path(path):
             continue
         path = os.path.join(path, word)
     return path
+
+
+def bytes_conversion(file_path):
+    """
+    calculate file size and dynamically convert it to K, M, GB, etc.
+    :param file_path:
+    :return: file size with format
+    """
+    number = os.path.getsize(file_path)
+    symbols = ('K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y')
+    prefix = dict()
+    for a, s in enumerate(symbols):
+        prefix[s] = 1 << (a + 1) * 10
+    for s in reversed(symbols):
+        if int(number) >= prefix[s]:
+            value = float(number) / prefix[s]
+            return '%.2f%s' % (value, s)
+    return "%sB" % number
 
 
 def signal_handler(signal, frame):

@@ -19,6 +19,12 @@
 5. 文件下载
 6. 文件删除（目录为空，一并删除目录）
 
+### 未完成
+
+暂无。
+
+> 如您有好的意见或建议，请前往本项目的仓库[Github issue](https://github.com/JevenM/HTTP_SERVER/issues)提出问题，感谢您对项目的贡献和宝贵意见及支持。
+
 ## 代码
 
 该模块通过以相当简单的方式实现标准`GET`和`HEAD`请求，构建在`BaseHTTPServer`上，基于`BaseHTTPRequestHandler`实现，具体细节请看代码和注释。
@@ -50,7 +56,7 @@ __content__：本文的CSDN博客地址：[使用python实现提供远程上传�
 | def str_to_chinese(self,var)                        | 将 16 进制字符串解析为中文字符                                                                                                                                                                                                                                                                                                                                                      |
 | def signal_handler(signal, frame):                  | 提示关闭，退出                                                                                                                                                                                                                                                                                                                                                                      |
 | def main():                                         | 主函数                                                                                                                                                                                                                                                                                                                                                                              |
-| if **name** == '**main**':                          | 入口                                                                                                                                                                                                                                                                                                                                                                                |
+| if **name** == '**main**':                          | 程序入口                                                                                                                                                                                                                                                                                                                                                                                |
 
 ## 版本更新记录
 
@@ -68,28 +74,46 @@ __content__：本文的CSDN博客地址：[使用python实现提供远程上传�
 - 0.5.4.解决无法删除内层文件的 bug
 - 0.5.6.解决上传文件夹内层文件内容丢失的 bug
 - 0.5.8.增加删除空目录的功能
-- 0.6.0.优化代码和文档注释；取消显示隐藏文件和目录，保持界面清爽整洁；修复删除文件时跳转页面报错的 bug；修复文件树文件内容累积的 bug。
+- 0.5.9.批量更新
+    - 优化代码和文档注释；
+    - 取消显示隐藏文件和目录，保持界面清爽整洁；
+    - 修复删除文件时跳转页面报错的 bug；
+    - 修复文件树文件内容累积的 bug。
+- 0.6.0.对较多内容进行更新
+    - 修复中文文件显示内容乱码的问题。
+    - 优化显示文件大小，支持动态转化单位。
+    - 修复写入目录树中文乱码的问题。
+    - 取消显示所有文件，增加分层显示文件夹的功能，避免显示文件过多显得杂乱。
+    - 修复删除目录报错的问题。
+    - 修复删除子目录中文件报错的问题。
+    - 修复上传中文目录文件跳转报错的问题。
+    - 取消自动删除空目录的功能。
+    - 增加删除目录按钮的红框警示。
+    - 增加显示文件类型的条目，便于看清当前类型。
 
-该代码目前在`windows`和`Linux`平台均已测试通过，有兴趣的小伙伴可以运行试一下。
+该代码目前在`windows`和`Linux`平台均已测试通过，有兴趣的小伙伴可以运行体验一下操作。
 
 ## 运行步骤：
 
-- 打开`Terminal/CMD`窗口，进入要共享的文件目录，注意使用`python3`运行代码：
+- 打开`Terminal/CMD`窗口，进入要共享的文件目录，注意使用`python3`运行代码（python2也支持）：
 
 ```shell
 python HTTP_SERVER.py [port]
 ```
 
-- `[port]` 端口为可选参数，默认 1234。
+- `[port]` 端口为可选参数，不填写默认为 1234。
 
 ### 本地测试启动
+
+示例：修改服务端口为 8000。
 
 ```shell
 python HTTP_SERVER.py 8000
 ```
 
-- 如果需要放在服务器运行，则使用远程连接工具登录到服务器控制台，需要使用`nohup`来支持关闭`shell`之后，让其保持后台运行，
-- 执行：
+- 注意，如果需要放在服务器运行，则使用远程连接工具登录到服务器控制台，需要使用`nohup`来支持关闭`shell`之后，让其保持后台运行，
+
+执行：
 
 ```shell
  nohup python3 HTTP_SERVER.py >> HTTP_SERVER.log 2>&1 &
@@ -106,6 +130,8 @@ python HTTP_SERVER.py 8000
 ### 主页面
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/f5bf04f1f390401bbbf65bd29cb44eeb.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAQW50cm4=,size_16,color_FFFFFF,t_70,g_se,x_16)
+
+这里注意共享的目录就是主代码文件`HTTP_SERVER.py`所在的目录，代码中特意将其取消显示，避免误操作导致删库跑路。
 
 ### dirtree 目录树+列表
 
@@ -144,6 +170,8 @@ python HTTP_SERVER.py 8000
 ## 结尾
 
 好了，本次探索到此为止，有兴趣的小伙伴赶紧去玩一下吧！GitHub 仓库：[JevenM](https://github.com/JevenM/HTTP_SERVER)
+
+如果您对此项目感兴趣，欢迎`star`☆或者`fork`，感谢您的支持！
 
 ## 参考资料
 
