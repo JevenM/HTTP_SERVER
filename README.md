@@ -8,54 +8,6 @@
 
 由于本人好久不写代码，手有些生了，功能还算是实现了，有需要的人可以参考一下~
 
-## 功能
-
-### 已完成
-
-1. 本地上传文件夹（单个文件夹，文件夹内部支持多级嵌套）
-2. 本地上传文件（多个任意类型的文件）
-3. 展示文件目录（以当前目录为根目录，层层展开显示其中所有文件），属性（文件路径，大小和最后修改时间）
-4. 实时生成目录树和文件列表写入文件，支持下载导出
-5. 文件下载
-6. 文件删除（目录为空，一并删除目录）
-
-### 未完成
-
-暂无。
-
-> 如您有好的意见或建议，请前往本项目的仓库[Github issue](https://github.com/JevenM/HTTP_SERVER/issues)提出问题，感谢您对项目的贡献和宝贵意见及支持。
-
-## 代码
-
-该模块通过以相当简单的方式实现标准`GET`和`HEAD`请求，构建在`BaseHTTPServer`上，基于`BaseHTTPRequestHandler`实现，具体细节请看代码和注释。
-
-**version**：最新版本："0.6.0"
-
-**content**：本文的 CSDN 博客地址：[使用 python 实现提供远程上传下载文件的 http 服务器](https://blog.csdn.net/qq_38232598/article/details/121520894?spm=1001.2014.3001.5501)
-
-**author**：我的 CSDN 博客地址：[antrn](CSDN:%20https://blog.csdn.net/qq_38232598)
-
-### 函数功能
-
-| 类/函数                                             | 注释                                                                                                                                                                                                                                                                                                                                                                                |
-| --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| class MyHTTPRequestHandler(BaseHTTPRequestHandler): | 带有 GET/HEAD/POST 命令的简单 HTTP 请求处理程序。提供来自当前目录及其任何子目录的文件,可以接收客户端上传的文件和文件夹。GET/HEAD/POST 请求完全相同，只是 HEAD 请求忽略了文件的实际内容。                                                                                                                                                                                            |
-| def buildTree(self, url):                           | 构建目录树，存入列表                                                                                                                                                                                                                                                                                                                                                                |
-| def getAllFilesList(self):                          | 获取文件列表                                                                                                                                                                                                                                                                                                                                                                        |
-| def writeList(self,url):                            | 写入文件                                                                                                                                                                                                                                                                                                                                                                            |
-| def do_GET(self):                                   | 处理 GET 请求                                                                                                                                                                                                                                                                                                                                                                       |
-| def do_HEAD(self):                                  | Serve a HEAD request.                                                                                                                                                                                                                                                                                                                                                               |
-| def do_POST(self):                                  | Serve a POST request.                                                                                                                                                                                                                                                                                                                                                               |
-| def deal_post_data(self):                           | 处理 post 数据                                                                                                                                                                                                                                                                                                                                                                      |
-| def send_head(self):                                | Common code for GET and HEAD commands.This sends the response code and MIME headers.Return value is either a file object (which has to be copied to the output file by the caller unless the command was HEAD,and must be closed by the caller under all circumstances), orNone, in which case the caller has nothing further to do.                                                |
-| def list_directory(self, path):                     | Helper to produce a directory listing (absent index.html).Return value is either a file object, or None (indicating an error). In either case, the headers are sent, making the interface the same as for send_head().                                                                                                                                                              |
-| def guess_type(self, path):                         | Guess the type of a file.Argument is a PATH (a filename).Return value is a string of the form type/subtype,usable for a MIME Content-type header. The default implementation looks the file's extension up in the table self.extensions_map, using application/octet-stream as a default; however it would be permissible (if slow) to look inside the data to make a better guess. |
-| def translate_path(path):                           | Translate a /-separated PATH to the local filename syntax.Components that mean special things to the local file system (e.g. drive or directory names) are ignored. (XXX They should probably be diagnosed.)                                                                                                                                                                        |
-| def str_to_chinese(self,var)                        | 将 16 进制字符串解析为中文字符                                                                                                                                                                                                                                                                                                                                                      |
-| def signal_handler(signal, frame):                  | 提示关闭，退出                                                                                                                                                                                                                                                                                                                                                                      |
-| def main():                                         | 主函数                                                                                                                                                                                                                                                                                                                                                                              |
-| if **name** == '**main**':                          | 程序入口                                                                                                                                                                                                                                                                                                                                                                            |
-
 ## 版本更新记录
 
 - 0.0.8.基于 BaseHTTPRequestHandler 实现目录列表功能，原来是只显示一级文件或目录，修改为 walk 遍历所有文件
@@ -95,6 +47,54 @@
   - 修复目录树累积的问题。
   - 更新readme文档。
 
+
+## 功能
+
+### 已完成
+
+1. 本地上传文件夹（单个文件夹，文件夹内部支持多级嵌套）
+2. 本地上传文件（多个任意类型的文件）
+3. 展示文件目录（以当前目录为根目录，层层展开显示其中所有文件），属性（文件路径，大小和最后修改时间）
+4. 实时生成目录树和文件列表写入文件，支持下载导出
+5. 文件下载
+6. 文件删除和删除目录
+
+### 未完成
+
+暂无。
+
+> 如您有好的意见或建议，请前往本项目的仓库[Github issue](https://github.com/JevenM/HTTP_SERVER/issues)提出问题，感谢您对项目的贡献和宝贵意见及支持。
+
+## 代码
+
+该模块通过以相当简单的方式实现标准`GET`和`HEAD`请求，构建在`BaseHTTPServer`上，基于`BaseHTTPRequestHandler`实现，具体细节请看代码和注释。
+
+**version**：最新版本："0.6.0"
+
+**content**：本文的 CSDN 博客地址：[使用 python 实现提供远程上传下载文件的 http 服务器](https://blog.csdn.net/qq_38232598/article/details/121520894?spm=1001.2014.3001.5501)
+
+**author**：我的 CSDN 博客地址：[antrn](CSDN:%20https://blog.csdn.net/qq_38232598)
+
+### 函数功能
+
+| 类/函数                                             | 注释                                                                                                                                                                                                                                                                                                                                                                                |
+| --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| class MyHTTPRequestHandler(BaseHTTPRequestHandler): | 带有 GET/HEAD/POST 命令的简单 HTTP 请求处理程序。提供来自当前目录及其任何子目录的文件,可以接收客户端上传的文件和文件夹。GET/HEAD/POST 请求完全相同，只是 HEAD 请求忽略了文件的实际内容。                                                                                                                                                                                            |
+| def buildTree(self, url):                           | 构建目录树，存入列表                                                                                                                                                                                                                                                                                                                                                                |
+| def getAllFilesList(self):                          | 获取文件列表                                                                                                                                                                                                                                                                                                                                                                        |
+| def writeList(self,url):                            | 写入文件                                                                                                                                                                                                                                                                                                                                                                            |
+| def do_GET(self):                                   | 处理 GET 请求                                                                                                                                                                                                                                                                                                                                                                       |
+| def do_HEAD(self):                                  | Serve a HEAD request.                                                                                                                                                                                                                                                                                                                                                               |
+| def do_POST(self):                                  | Serve a POST request.                                                                                                                                                                                                                                                                                                                                                               |
+| def deal_post_data(self):                           | 处理 post 数据                                                                                                                                                                                                                                                                                                                                                                      |
+| def send_head(self):                                | Common code for GET and HEAD commands.This sends the response code and MIME headers.Return value is either a file object (which has to be copied to the output file by the caller unless the command was HEAD,and must be closed by the caller under all circumstances), orNone, in which case the caller has nothing further to do.                                                |
+| def list_directory(self, path):                     | Helper to produce a directory listing (absent index.html).Return value is either a file object, or None (indicating an error). In either case, the headers are sent, making the interface the same as for send_head().                                                                                                                                                              |
+| def guess_type(self, path):                         | Guess the type of a file.Argument is a PATH (a filename).Return value is a string of the form type/subtype,usable for a MIME Content-type header. The default implementation looks the file's extension up in the table self.extensions_map, using application/octet-stream as a default; however it would be permissible (if slow) to look inside the data to make a better guess. |
+| def translate_path(path):                           | Translate a /-separated PATH to the local filename syntax.Components that mean special things to the local file system (e.g. drive or directory names) are ignored. (XXX They should probably be diagnosed.)                                                                                                                                                                        |
+| def str_to_chinese(self,var)                        | 将 16 进制字符串解析为中文字符                                                                                                                                                                                                                                                                                                                                                      |
+| def signal_handler(signal, frame):                  | 提示关闭，退出                                                                                                                                                                                                                                                                                                                                                                      |
+| def main():                                         | 主函数                                                                                                                                                                                                                                                                                                                                                                              |
+| if **name** == '**main**':                          | 程序入口                                                                                                                                                                                                                                                                                                                                                             
 
 该代码目前在`windows`和`Linux`平台均已测试通过，有兴趣的小伙伴可以运行体验一下操作。
 
