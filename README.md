@@ -89,6 +89,11 @@
   - 增加删除目录按钮的红框警示。
   - 增加显示文件类型的条目，便于看清当前类型。
 - 0.6.1.修复目录树文件内容不完整的问题；优化页面表格显示，增加警示效果。
+- 0.6.2.累积更新
+  - 修复文件夹大小计算为0的问题。
+  - 修复目录树文件大小计算为0的问题。
+  - 修复目录树累积的问题。
+  - 更新readme文档。
 
 
 该代码目前在`windows`和`Linux`平台均已测试通过，有兴趣的小伙伴可以运行体验一下操作。
@@ -129,15 +134,19 @@ python HTTP_SERVER.py 8000
 
 ### 主页面
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/f5bf04f1f390401bbbf65bd29cb44eeb.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAQW50cm4=,size_16,color_FFFFFF,t_70,g_se,x_16)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/8ca71a5821da432f922737636f8d4d1c.png)
 
-这里注意共享的目录就是主代码文件`HTTP_SERVER.py`所在的目录，代码中特意将其取消显示，避免误操作导致删库跑路。
+这里注意，① 共享的目录就是主代码文件`HTTP_SERVER.py`所在的目录，代码中特意将其取消显示，避免误操作导致删库跑路；② 标红的删除按钮慎用。
+
+### 子目录
+点击`测试目录`，进入二级目录，同样支持各种文件操作：
+![在这里插入图片描述](https://img-blog.csdnimg.cn/a608541820674dce8e00af884c6bd175.png)
 
 ### dirtree 目录树+列表
 
-在地址栏输入`127.0.0.1:8000/dirtree.txt`，或者直接点击列表中的`dirtree.txt`文件，跳转到显示文件内容的页面，如下图，这两个列表默认都是按照英文字母和数字的顺序排序（小写字母），两种方式方便不同查看目录结构的需求。
+在地址栏输入`127.0.0.1:8000/dirtree.txt`，或者直接点击列表中的`dirtree.txt`文件，跳转到显示文件内容的页面，如下图，这默认按照英文字母和数字的顺序排序（小写字母）。两种方式方便不同查看目录结构的需求。
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/e80d55675706461a949b0324ef0a7922.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAQW50cm4=,size_20,color_FFFFFF,t_70,g_se,x_16)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/9f1fe903c4fa42b1982525c7aecd8397.png)
 
 ## 上传
 

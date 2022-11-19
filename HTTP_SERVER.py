@@ -89,7 +89,7 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
                     st = os.stat(display_name)
                     # fsize = st.st_size
                     fsize = bytes_conversion(display_name)
-                    # print("Size", str(os.path.getsize(display_name)))
+                    print("Size", str(os.path.getsize(display_name)))
                     fmtime = time.strftime(
                         '%Y-%m-%d %H:%M:%S', time.localtime(st.st_mtime))
                     listofme.append(relative_path+"\t")
@@ -97,14 +97,29 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
                     listofme.append(str(fmtime)+"\t\n")
         return listofme
 
+    def calculate_dir_size(self, pathvar):
+        '''
+        calculate dir size(bytes)
+        '''
+        size = 0
+        lst = os.listdir(pathvar)
+        for i in lst:
+            pathnew = os.path.join(pathvar, i)
+            if os.path.isfile(pathnew):
+                size += os.path.getsize(pathnew)
+            elif os.path.isdir(pathnew):
+                size += self.calculate_dir_size(pathnew)
+        return size
+
     def writeList(self, url):
+        tree_ = self.getAllFilesList()
         f = open(url, 'w', encoding="utf-8")
         f.write("http://"+str(self.IPAddress) +
                 ":8000/ \ndirectory tree\n")
-        self.mylist.sort()
+        # self.mylist.sort()
         f.writelines(self.mylist)
         f.write("\nFile Path\tFile Size\tFile Modify Time\n")
-        f.writelines(self.getAllFilesList())
+        f.writelines(tree_)
         self.mylist = []
         self.myspace = ""
         print("writing completed.")
@@ -176,6 +191,7 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
             shutil.copyfileobj(fd, self.wfile)
             # 只有回到根目录下才更新写入目录文件，保持最新
             if path == "/":
+                self.mylist = []
                 self.buildTree(translate_path(self.path))
                 self.writeList(self.treefile)
             fd.close()
@@ -217,6 +233,7 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
         if f:
             shutil.copyfileobj(f, self.wfile)
             f.close()
+        self.mylist = []
         # 每次提交post请求之后更新目录树文件
         self.buildTree(translate_path(self.path))
         self.writeList(MyHTTPRequestHandler.treefile)
@@ -458,7 +475,9 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
                     # for d in dirs:
                     # print("dirs-------------------", d)
                     st = os.stat(fullname)
-                    fsize = bytes_conversion(fullname)
+
+                    fsize = bytes_conversion(
+                        "", self.calculate_dir_size(fullname))
                     fmtime = time.strftime(
                         '%Y-%m-%d %H:%M:%S', time.localtime(st.st_mtime))
                     relative_path = fullname[len(
@@ -577,13 +596,18 @@ def translate_path(path):
     return path
 
 
-def bytes_conversion(file_path):
+def bytes_conversion(file_path, total_size=-1):
     """
     calculate file size and dynamically convert it to K, M, GB, etc.
     :param file_path:
+    :param total_size: the size of a dir
     :return: file size with format
     """
-    number = os.path.getsize(file_path)
+    number = 0
+    if total_size == -1:
+        number = os.path.getsize(file_path)
+    else:
+        number = total_size
     symbols = ('K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y')
     prefix = dict()
     for a, s in enumerate(symbols):
