@@ -55,17 +55,18 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
     IPAddress = socket.gethostbyname(socket.gethostname())
 
     def buildTree(self, url):
-        print("file url:", url)
+        print("directories url:", url)
         files = os.listdir(r''+url)
-        self.mylist = []
+        # not show parent directory
+        # self.mylist = []
         for file in files:
             if not file.startswith('.'):
-                myfile = url + "//"+file
+                myfile = url + "/"+file
                 size_str = bytes_conversion(myfile)
                 if os.path.isfile(myfile):
                     self.mylist.append(
                         str(self.myspace)+"|____"+file + " " + size_str+"\n")
-                if os.path.isdir(myfile):
+                elif os.path.isdir(myfile):
                     self.mylist.append(
                         str(self.myspace)+"|____"+file + "\n")
                     # get into the sub-directory, add "|    "
@@ -401,7 +402,7 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 
         f.write(b"<hr>\n")
         # 表格
-        f.write(b"<table with=\"100%\">")
+        f.write(b"<table with=\"100%\" style='text-align:center'>")
         f.write(b"<tr><th>path</th>")
         f.write(b"<th>type</th>")
         f.write(b"<th>size</th>")
@@ -415,9 +416,9 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
             fullname = os.path.join(path, name)
             # 目录名/文件名
             display_name = linkname = name
-            print("display##########", display_name)
+            print("display root content:", display_name)
             if not display_name.startswith('.'):
-                if display_name == "HTTP_SERVER.py":
+                if display_name == "HTTP_SERVER.py" or display_name == "_config.yml":
                     continue
 
                 # 如果是文件夹的话
@@ -476,7 +477,7 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
                             escape(fsize).encode('utf-8'))
                     f.write(b"<td>%s</td>" %
                             escape(fmtime).encode('ascii'))
-                    f.write(b"<td><a style='border: solid 1px red' href=\"/delete/%s\">delete</a>" %
+                    f.write(b"<td><a style='border: solid 1px red; text-decoration: none; background: red; color: white;' href=\"/delete/%s\">delete</a>" %
                             escape(fullname).encode('utf-8'))
                     f.write(b"</tr>")
 
