@@ -15,6 +15,7 @@ import time
 import sys
 import socket
 import posixpath
+import platform
 try:
     from html import escape
 except ImportError:
@@ -144,7 +145,7 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
         if len(plist) > 2 and plist[1] == "delete":
             result = plist[2]
             print("ready delete file/dir===>", result)
-            if result.startswith("/"):
+            if isWondows() and result.startswith("/"):
                 result = result[1:]
             if os.path.exists(result):
                 print("deleting file/dir===>", result)
@@ -572,6 +573,21 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
         '.h': 'text/plain',
         '.txt': 'text/plain',
     })
+
+
+def isWondows():
+    '''
+    判断当前运行平台
+    :return:
+    '''
+    sysstr = platform.system()
+    if (sysstr == "Windows"):
+        return True
+    elif (sysstr == "Linux"):
+        return False
+    else:
+        print ("Other System ")
+    return False
 
 
 def translate_path(path):
