@@ -1,8 +1,13 @@
 <div align=center>
+  <a href="https://blog.csdn.net/qq_38232598">
+	  <img src="https://img.shields.io/badge/csdn-Antrn-brightgreen">
+  </a>
   <img src="https://img.shields.io/badge/language-python-blue" />
   <img src="https://img.shields.io/github/languages/top/JevenM/HTTP_SERVER?color=yellow" alt="languages-top" />
   <img src="https://img.shields.io/github/last-commit/JevenM/HTTP_SERVER?color=brigtgreen" alt="last-commit" />
-  <img src="https://img.shields.io/badge/Author-JevenM-orange" alt="Author" />
+  <a href="https://github.com/JevenM/HTTP_SERVER">
+	  <img src="https://img.shields.io/badge/Author-JevenM-orange" alt="Author" />
+  </a>
   <img src="https://img.shields.io/github/license/JevenM/HTTP_SERVER" alt="license" />
 <!--   <img src="https://badgen.net/github/stars/JevenM/HTTP_SERVER" alt="stars"/> -->
 </div>
@@ -12,14 +17,13 @@
   <img src="https://img.shields.io/github/stars/jevenm/HTTP_SERVER.svg?style=social" />
   <img src="https://img.shields.io/github/watchers/JevenM/HTTP_SERVER.svg?style=social" />
 </div>
-<div align=center>
-  <a href="https://blog.csdn.net/qq_38232598"><img src="https://img.shields.io/badge/csdn-Antrn-brightgreen"></a>
-  https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white
-	https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white
-	https://img.shields.io/badge/CSS-239120?&style=for-the-badge&logo=css3&logoColor=white
-	https://img.shields.io/badge/.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white
-	https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white
-</div>
+<!-- <div align=center> -->
+<!--   <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white">
+	<img src="https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white">
+	<img src="https://img.shields.io/badge/CSS-239120?&style=for-the-badge&logo=css3&logoColor=white">
+	<img src="https://img.shields.io/badge/.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white">
+	<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white"> -->
+<!-- </div> -->
 
 
 
