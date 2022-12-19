@@ -1,12 +1,39 @@
+<div align=center>
+  <a href="https://blog.csdn.net/qq_38232598">
+	  <img src="https://img.shields.io/badge/csdn-Antrn-brightgreen">
+  </a>
+  <img src="https://img.shields.io/badge/language-python-blue" />
+  <img src="https://img.shields.io/github/languages/top/JevenM/HTTP_SERVER?color=yellow" alt="languages-top" />
+  <img src="https://img.shields.io/github/last-commit/JevenM/HTTP_SERVER?color=brigtgreen" alt="last-commit" />
+  <a href="https://github.com/JevenM/HTTP_SERVER">
+	  <img src="https://img.shields.io/badge/Author-JevenM-orange" alt="Author" />
+  </a>
+  <img src="https://img.shields.io/github/license/JevenM/HTTP_SERVER" alt="license" />
+<!--   <img src="https://badgen.net/github/stars/JevenM/HTTP_SERVER" alt="stars"/> -->
+</div>
+<div align=center>
+  <img src="https://img.shields.io/github/followers/jevenm.svg?style=social" />
+  <img src="https://img.shields.io/github/forks/jevenm/HTTP_SERVER.svg?style=social" />
+  <img src="https://img.shields.io/github/stars/jevenm/HTTP_SERVER.svg?style=social" />
+  <img src="https://img.shields.io/github/watchers/JevenM/HTTP_SERVER.svg?style=social" />
+</div>
+<!-- <div align=center> -->
+<!--   <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white">
+	<img src="https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white">
+	<img src="https://img.shields.io/badge/CSS-239120?&style=for-the-badge&logo=css3&logoColor=white">
+	<img src="https://img.shields.io/badge/.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white">
+	<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white"> -->
+<!-- </div> -->
+
+
+
 # HTTP_SERVER
 
-实现 http 服务器，支持文件夹/文件上传和下载
+基于 python 实现 http 服务器，支持文件夹/文件上传和下载
 
 ## 简介
 
-本文主要讨论如何实现远程文件的上传和下载功能。
-
-由于本人好久不写代码，手有些生了，功能还算是实现了，有需要的人可以参考一下~
+本仓库主要实现远程文件的上传和下载功能，有需要的人可以参考。
 
 ## 版本更新记录
 
@@ -139,7 +166,9 @@ python HTTP_SERVER.py 8000
 这里注意，① 共享的目录就是主代码文件`HTTP_SERVER.py`所在的目录，代码中特意将其取消显示，避免误操作导致删库跑路；② 标红的删除按钮慎用。
 
 ### 子目录
+
 点击`测试目录`，进入二级目录，同样支持各种文件操作：
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/a608541820674dce8e00af884c6bd175.png)
 
 ### dirtree 目录树+列表
