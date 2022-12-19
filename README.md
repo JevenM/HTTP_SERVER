@@ -1,3 +1,5 @@
+![](https://img.shields.io/badge/language-python-green)
+
 # HTTP_SERVER
 
 基于 python 实现 http 服务器，支持文件夹/文件上传和下载
