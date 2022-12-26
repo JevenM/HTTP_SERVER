@@ -29,6 +29,8 @@
 
 # HTTP_SERVER
 
+[主页](https://jevenm.github.io/HTTP_SERVER/)
+
 基于 python 实现 http 服务器，支持文件夹/文件上传和下载
 
 ## 简介
@@ -210,7 +212,7 @@ python HTTP_SERVER.py 8000
 
 好了，本次探索到此为止，有兴趣的小伙伴赶紧去玩一下吧！GitHub 仓库：[JevenM](https://github.com/JevenM/HTTP_SERVER)
 
-如果您对此项目感兴趣，欢迎`star`☆ 或者`fork`，感谢您的支持！
+如果您对此项目感兴趣，欢迎`star`![star](https://user-images.githubusercontent.com/23145731/209551369-cad5f522-2a5b-40a0-b7a0-8388f8912ea1.png) 或者`fork`![fork](https://user-images.githubusercontent.com/23145731/209551428-4644fce7-b007-4420-a8fb-031155b558e5.png)，感谢您的支持！
 
 ## 参考资料
 
