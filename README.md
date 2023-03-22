@@ -11,12 +11,12 @@
   <img src="https://img.shields.io/github/license/JevenM/HTTP_SERVER" alt="license" />
 <!--   <img src="https://badgen.net/github/stars/JevenM/HTTP_SERVER" alt="stars"/> -->
 </div>
-<div align=center>
-  <img src="https://img.shields.io/github/followers/jevenm.svg?style=social" />
+<!-- <div align=center> -->
+<!--   <img src="https://img.shields.io/github/followers/jevenm.svg?style=social" />
   <img src="https://img.shields.io/github/forks/jevenm/HTTP_SERVER.svg?style=social" />
   <img src="https://img.shields.io/github/stars/jevenm/HTTP_SERVER.svg?style=social" />
-  <img src="https://img.shields.io/github/watchers/JevenM/HTTP_SERVER.svg?style=social" />
-</div>
+  <img src="https://img.shields.io/github/watchers/JevenM/HTTP_SERVER.svg?style=social" /> -->
+<!-- </div> -->
 <!-- <div align=center> -->
 <!--   <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white">
 	<img src="https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white">
